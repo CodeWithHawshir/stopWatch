@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: navy;
+        }
+
+        div {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 5rem;
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+        }
+
+        button {
+            border: none;
+            margin: 4px;
+            cursor: pointer;
+            font-size: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            padding-right: 14px;
+            padding-left: 14px;
+            color: navy;
+            font-weight: bold;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        button:hover {
+            background-color: navy;
+            color: white;
+            border: 1px solid white;
+        }
+
+        button:active {
+            background-color: rgb(172, 172, 172);
+        }
+
+        .changed-color {
+            background-color: rgb(0, 89, 255);
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        .changed-color2 {
+            background: none;
+            border: 2px solid navy;
+            font-family: monospace;
+
+        }
+
+        .changed-color3 {
+            background-color: rgb(255, 255, 255);
+            color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .changed-color4 {
+            background-color: navy;
+            color: navy;
+            background-color: white;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+        <p id="time">00:00:00</p>
+        <button id="start">start</button>
+        <button id="reset">reset</button>
+
+    </div>
+    <script>
+        var time = document.getElementById("time");
+        var start = document.getElementById("start");
+        var stop = document.getElementById("stop");
+        var reset = document.getElementById("reset");
+        var buttons = document.querySelectorAll("button"); // Assuming you want to change the color of all buttons
+        var sec = 0;
+        var min = 0;
+        var hour = 0;
+        var interval;
+        var isRunning = false;
+
+
+        function updatetime() {
+            if (sec === 10) {
+                document.body.style.backgroundColor = "rgb(0, 0, 58)"; // Change body background color
+
+                buttons.forEach(button => {
+                    button.classList.add('changed-color'); // Change button background color
+                });
+            }
+
+            if (sec === 30) {
+                document.body.style.backgroundColor = "rgb(0, 0, 28)"; // Change body background color
+
+                buttons.forEach(button => {
+                    button.classList.add('changed-color2'); // Change button background color
+                });
+            }
+
+            if (min === 1) {
+                document.body.style.backgroundColor = "rgb(0, 0, 08)"; // Change body background color
+
+                buttons.forEach(button => {
+                    button.classList.add('changed-color3'); // Change button background color
+                });
+            }
+
+            if (min === 2) {
+                document.body.style.backgroundColor = "navy"; // Change body background color
+
+                buttons.forEach(button => {
+                    button.classList.add('changed-color4'); // Change button background color
+                });
+            }
+
+            sec++;
+            if (sec === 60) {
+                sec = 0;
+                min++;
+            }
+            if (min === 60) {
+                min = 0;
+                hour++;
+            }
+
+            time.innerHTML = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+        }
+
+        start.addEventListener("click", function () {
+            if (isRunning) {
+                clearInterval(interval);
+                start.innerHTML = "Start";
+            } else {
+                interval = setInterval(updatetime, 1000);
+                start.innerHTML = "Stop";
+            }
+            isRunning = !isRunning;
+        });
+
+        stop.addEventListener("click", function () {
+            clearInterval(interval);
+        });
+
+        reset.addEventListener("click", function () {
+            clearInterval(interval);
+            isRunning = false;
+            start.innerHTML = "Start";
+
+
+            sec = 0;
+            min = 0;
+            hour = 0;
+
+            time.innerHTML = "00:00:00";
+        });
+
+    </script>
+
+</body>
+
+</html>
